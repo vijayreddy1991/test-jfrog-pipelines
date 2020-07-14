@@ -5,3 +5,4 @@ JFrog Pipelines test
 ## Changes
 
 * Test
+* Another test
