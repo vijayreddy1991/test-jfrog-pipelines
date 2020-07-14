@@ -1,0 +1,25 @@
+
+resources:
+  - name: source_repo
+    type: GitRepo
+    configuration:
+      gitProvider: github
+      path: kashyaprahul94/test-jfog-pipelines
+      branches:
+        include: master
+      buildOn:
+        commit:                false
+        pullRequestCreate:     true
+        releaseRequestCreate : true
+ 
+pipelines:     
+    - name: pipeline_github_repo_trigger
+    - steps:
+      - name: gitrepo_trigger_step_1
+        type: Bash
+        configuration:
+          inputResources:
+            - name: source_repo
+        execution:
+          onExecute:
+            - printenv 
