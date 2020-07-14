@@ -1,2 +1,3 @@
-# test-jfog-pipelines
+# JFrog Pipelines test
+
 JFrog Pipelines test
