@@ -10,12 +10,12 @@ resources:
  
 pipelines:     
     - name: pipeline_github_repo_trigger
-    - steps:
-      - name: gitrepo_trigger_step_1
-        type: Bash
-        configuration:
-          inputResources:
-            - name: source_repo
-        execution:
-          onExecute:
-            - printenv 
+      steps:
+        - name: gitrepo_trigger_step_1
+          type: Bash
+          configuration:
+            inputResources:
+              - name: source_repo
+          execution:
+            onExecute:
+              - printenv 
