@@ -7,10 +7,6 @@ resources:
       path: kashyaprahul94/test-jfog-pipelines
       branches:
         include: master
-      buildOn:
-        commit:                false
-        pullRequestCreate:     true
-        releaseRequestCreate : true
  
 pipelines:     
     - name: pipeline_github_repo_trigger
