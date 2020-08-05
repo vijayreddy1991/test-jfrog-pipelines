@@ -1,12 +1,12 @@
 
-# resources:
-#   - name: source_repo
-#     type: GitRepo
-#     configuration:
-#       gitProvider: github
-#       path: kashyaprahul94/test-jfrog-pipelines
-#       branches:
-#         include: master
+resources:
+  - name: source_repo
+    type: GitRepo
+    configuration:
+      gitProvider: kashyaprahul94_github
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: master
  
 pipelines:     
     - name: pipelines_hello
