@@ -9,9 +9,9 @@
 #         include: master
  
 pipelines:     
-    - name: pipeline_github_repo_trigger
+    - name: pipelines_hello
       steps:
-        - name: gitrepo_trigger_step_1
+        - name: step_1
           type: Bash
           execution:
             onExecute:
