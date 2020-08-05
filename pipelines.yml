@@ -10,12 +10,16 @@ resources:
  
 pipelines:     
     - name: pipelines_hello
+      configuration:
+        environmentVariables:
+          readOnly:
+            my_env_var: "hello"
       steps:
         - name: step_1
           type: Bash
-          configuration:
-            inputResources:
-              - name: source_repo
+#           configuration:
+#             inputResources:
+#               - name: source_repo
           execution:
             onExecute:
-              - printenv
+              - echo $my_env_var
