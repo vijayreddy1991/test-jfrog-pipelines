@@ -27,9 +27,6 @@ pipelines:
         - name: matrix_example
           type: Matrix
           stepMode: Bash
-          configuration:
-            inputResources:
-              - name: CompletedBuildInfo
           stepletMultipliers:
             environmentVariables:
               - animal:    dog
