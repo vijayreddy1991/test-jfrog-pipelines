@@ -10,10 +10,6 @@ resources:
  
 pipelines:     
     - name: pipelines_hello
-      configuration:
-        environmentVariables:
-          readOnly:
-            my_env_var: "hello"
       steps:
         - name: step_1
           type: Bash
@@ -23,7 +19,6 @@ pipelines:
           execution:
             onExecute:
               - printenv
-
         - name: matrix_example
           type: Matrix
           stepMode: Bash
