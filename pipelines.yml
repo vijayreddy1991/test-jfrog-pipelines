@@ -11,14 +11,14 @@ resources:
 pipelines:     
     - name: pipelines_hello
       steps:
-        - name: step_1
-          type: Bash
-          configuration:
-            inputResources:
-              - name: source_repo
-          execution:
-            onExecute:
-              - printenv
+#         - name: step_1
+#           type: Bash
+#           configuration:
+#             inputResources:
+#               - name: source_repo
+#           execution:
+#             onExecute:
+#               - printenv
         - name: matrix_example
           type: Matrix
           stepMode: Bash
