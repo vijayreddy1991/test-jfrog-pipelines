@@ -36,3 +36,4 @@ pipelines:
             onExecute:
               - echo "Executing matrix step on ${steplet_id}"
               - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
+              - printenv
