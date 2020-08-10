@@ -20,6 +20,7 @@ pipelines:
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
           onExecute:
             - add_run_files ./files state
+            - ls -al
           onComplete:
             - echo "${step_name} Completed"
 
@@ -31,10 +32,12 @@ pipelines:
         execution:
           onStart:
             - restore_run_files state ./files
+            - ls -al
             - filename="${step_name}_${steplet_number}"
             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
           onExecute:
             - add_run_files ./files state
+            - ls -al
           onComplete:
             - echo "${step_name} Completed"
             
