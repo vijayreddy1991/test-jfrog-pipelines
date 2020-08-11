@@ -11,51 +11,51 @@ resources:
 pipelines:     
     - name: pipelines_hello
       steps:
-      - name: step_a
-        type: Bash
-        execution:
-          onStart:
-            - mkdir -p files
-            - filename="${step_name}_${steplet_number}"
-            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-          onExecute:
-            - add_run_files ./files state
-            - ls -al
-          onComplete:
-            - echo "${step_name} Completed"
+#       - name: step_a
+#         type: Bash
+#         execution:
+#           onStart:
+#             - mkdir -p files
+#             - filename="${step_name}_${steplet_number}"
+#             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+#           onExecute:
+#             - add_run_files ./files state
+#             - ls -al
+#           onComplete:
+#             - echo "${step_name} Completed"
 
-      - name: step_b
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_a
-        execution:
-          onStart:
-            - restore_run_files state ./files
-            - ls -al
-            - filename="${step_name}_${steplet_number}"
-            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-          onExecute:
-            - add_run_files ./files state
-            - ls -al
-          onComplete:
-            - echo "${step_name} Completed"
+#       - name: step_b
+#         type: Bash
+#         configuration:
+#           inputSteps:
+#             - name: step_a
+#         execution:
+#           onStart:
+#             - restore_run_files state ./files
+#             - ls -al
+#             - filename="${step_name}_${steplet_number}"
+#             - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+#           onExecute:
+#             - add_run_files ./files state
+#             - ls -al
+#           onComplete:
+#             - echo "${step_name} Completed"
             
-#         - name: matrix_example
-#           type: Matrix
-#           stepMode: Bash
-#           stepletMultipliers:
-#             environmentVariables:
-#               - animal:    dog
-#                 mineral:   copper
-#                 vegetable: carrot
-# #               - animal:    goat
-# #                 mineral:   iron
-# #                 vegetable: broccoli
-# #               - animal:    lizard
-# #                 mineral:   lead
-#           execution:
-#             onExecute:
-#               - echo "Executing matrix step on ${steplet_id}"
-#               - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
-#               - printenv
+        - name: matrix_example
+          type: Matrix
+          stepMode: Bash
+          stepletMultipliers:
+            environmentVariables:
+              - animal:    dog
+                mineral:   copper
+                vegetable: carrot
+              - animal:    goat
+                mineral:   iron
+                vegetable: broccoli
+#               - animal:    lizard
+#                 mineral:   lead
+          execution:
+            onExecute:
+              - echo "Executing matrix step on ${steplet_id}"
+              - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
+              - printenv
