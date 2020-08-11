@@ -60,4 +60,6 @@ pipelines:
               - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
               - printenv
               - ls -al
-              - ls -al ./workspace
+              - cat ./steplet.env
+              - cat ./steplet.json
+              - cat ./stepletScript.sh
