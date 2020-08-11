@@ -67,11 +67,6 @@ pipelines:
               - echo "Executing matrix step on ${steplet_id}"
               - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
               - printenv
-              - ls -al
-              - ls -al ./workspace
-              - ls -al ./workspace/run_state
-              - cat ./steplet.env
-              - cat ./steplet.json
               - add_run_variables stepId=${step_id}
-              - add_run_variables aa_${stepId}_buildNumber=${run_number}
-              - write_output prop_bag "imageTag=${stepId}"
+              - add_run_variables stepletId=${steplet_id}
+#               - write_output prop_bag "imageTag=${stepId}"
