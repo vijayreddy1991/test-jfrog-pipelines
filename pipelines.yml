@@ -7,6 +7,9 @@ resources:
       path: kashyaprahul94/test-jfrog-pipelines
       branches:
         include: master
+        
+  - name: prop_bag
+    type: PropertyBag
  
 pipelines:     
     - name: pipelines_hello
@@ -46,7 +49,7 @@ pipelines:
           stepMode: Bash
           configuration:
             outputResources:
-              - name: myVar  
+              - name: prop_bag
           stepletMultipliers:
             environmentVariables:
               - animal:    dog
@@ -69,4 +72,4 @@ pipelines:
               - cat ./steplet.json
               - add_run_variables stepId=${step_id}
               - add_run_variables aa_${stepId}_buildNumber=${run_number}
-              - write_output myVar "imageTag=${stepId}"
+              - write_output prop_bag "imageTag=${stepId}"
