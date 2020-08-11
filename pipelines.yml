@@ -65,5 +65,5 @@ pipelines:
               - cat ./steplet.env
               - cat ./steplet.json
               - add_run_variables stepId=${step_id}
-              - add_run_variables ${stepId}_buildNumber=${run_number}
+              - add_run_variables aa_${stepId}_buildNumber=${run_number}
               - write_output myVar "imageTag=${stepId}"
