@@ -42,13 +42,17 @@
 # #               - write_output prop_bag "imageTag=${stepId}"
 
 
-
 resources:
+    - name: dummy_resource
+      type: PropertyBag
+      configuration:
+        key1: value1
+        
     - name: dummy_resource_1
       type: PropertyBag
       configuration:
         key1: value1
-        key2: value2
+        
 pipelines:
   - name: Run_State_Example_7
     steps:
