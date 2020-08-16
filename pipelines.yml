@@ -25,124 +25,125 @@ resources:
 pipelines:     
   - name: pipelines_hello
     steps:
-      - name: matrix_example
-        type: Matrix
-        stepMode: Bash
-        configuration:
-          outputResources:
-            - name: prop_bag
-        stepletMultipliers:
-          environmentVariables:
-            - animal:    dog
-              mineral:   copper
-              vegetable: carrot
-            - animal:    goat
-              mineral:   iron
-              vegetable: broccoli
+    
+#       - name: matrix_example
+#         type: Matrix
+#         stepMode: Bash
+#         configuration:
+#           outputResources:
+#             - name: prop_bag
+#         stepletMultipliers:
+#           environmentVariables:
+#             - animal:    dog
+#               mineral:   copper
+#               vegetable: carrot
+#             - animal:    goat
+#               mineral:   iron
+#               vegetable: broccoli
+#         execution:
+#           onExecute:
+#             - echo "Executing matrix step on ${steplet_id}"
+#             - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
+#             - printenv
+#             - add_run_variables stepId=${step_id}
+#             - add_run_variables stepletId=${steplet_id}
+#             - write_output prop_bag "${step_name}_stepId=${step_id}"
+#             - write_output prop_bag "${step_name}_stepletId=${steplet_id}"        
+
+
+      - name: start
+        type: Bash
         execution:
           onExecute:
-            - echo "Executing matrix step on ${steplet_id}"
-            - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
-            - printenv
-            - add_run_variables stepId=${step_id}
-            - add_run_variables stepletId=${steplet_id}
-            - write_output prop_bag "${step_name}_stepId=${step_id}"
-            - write_output prop_bag "${step_name}_stepletId=${steplet_id}"        
+            - echo "Start..."
+
+      - name: step_a
+        type: Bash
+        configuration:
+          outputResources:
+            - name: dummy_resource
+          inputSteps:
+            - name: start
+        execution:
+          onStart:
+            - sleep 10
+            - mkdir -p files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+            - write_output dummy_resource "${step_name}_stepletId=${steplet_id}"
+          onComplete:
+            - echo "${step_name} Completed"
+
+      - name: step_b
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: start
+          outputResources:
+            - name: dummy_resource
+        execution:
+          onStart:
+            - sleep 10
+            - mkdir -p files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+            - write_output dummy_resource "${step_name}_stepletId=${steplet_id}"
+          onComplete:
+            - echo "${step_name} Completed"
+
+      - name: step_e
+        type: Bash
+        configuration:
+          outputResources:
+            - name: dummy_resource_1
+          inputResources:
+            - name: dummy_resource
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - add_run_files ./files state
+            - write_output dummy_resource_1 "${step_name}_stepletId=${steplet_id}"
+          onComplete:
+            - echo "${step_name} Completed"
 
 
-      # - name: start
-      #   type: Bash
-      #   execution:
-      #     onExecute:
-      #       - echo "Start..."
-
-      # - name: step_a
-      #   type: Bash
-      #   configuration:
-      #     outputResources:
-      #       - name: dummy_resource
-      #     inputSteps:
-      #       - name: start
-      #   execution:
-      #     onStart:
-      #       - sleep 10
-      #       - mkdir -p files
-      #       - filename="${step_name}_${steplet_number}"
-      #       - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-      #     onExecute:
-      #       - add_run_files ./files state
-      #       - write_output dummy_resource "${step_name}_stepletId=${steplet_id}"
-      #     onComplete:
-      #       - echo "${step_name} Completed"
-
-      # - name: step_b
-      #   type: Bash
-      #   configuration:
-      #     inputSteps:
-      #       - name: start
-      #     outputResources:
-      #       - name: dummy_resource
-      #   execution:
-      #     onStart:
-      #       - sleep 10
-      #       - mkdir -p files
-      #       - filename="${step_name}_${steplet_number}"
-      #       - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-      #     onExecute:
-      #       - add_run_files ./files state
-      #       - write_output dummy_resource "${step_name}_stepletId=${steplet_id}"
-      #     onComplete:
-      #       - echo "${step_name} Completed"
-
-      # - name: step_e
-      #   type: Bash
-      #   configuration:
-      #     outputResources:
-      #       - name: dummy_resource_1
-      #     inputResources:
-      #       - name: dummy_resource
-      #   execution:
-      #     onStart:
-      #       - restore_run_files state ./files
-      #       - filename="${step_name}_${steplet_number}"
-      #       - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-      #     onExecute:
-      #       - add_run_files ./files state
-      #       - write_output dummy_resource_1 "${step_name}_stepletId=${steplet_id}"
-      #     onComplete:
-      #       - echo "${step_name} Completed"
+      - name: step_f
+        type: Bash
+        configuration:
+          outputResources:
+            - name: dummy_resource_1
+          inputResources:
+            - name: dummy_resource
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+            - write_output dummy_resource_1 "${step_name}_stepletId=${steplet_id}"
+          onExecute:
+            - add_run_files ./files state
+          onComplete:
+            - echo "${step_name} Completed"
 
 
-      # - name: step_f
-      #   type: Bash
-      #   configuration:
-      #     outputResources:
-      #       - name: dummy_resource_1
-      #     inputResources:
-      #       - name: dummy_resource
-      #   execution:
-      #     onStart:
-      #       - restore_run_files state ./files
-      #       - filename="${step_name}_${steplet_number}"
-      #       - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-      #       - write_output dummy_resource_1 "${step_name}_stepletId=${steplet_id}"
-      #     onExecute:
-      #       - add_run_files ./files state
-      #     onComplete:
-      #       - echo "${step_name} Completed"
-
-
-      # - name: step_h
-      #   type: Bash
-      #   configuration:
-      #     inputResources:
-      #       - name: dummy_resource_1
-      #   execution:
-      #     onStart:
-      #       - restore_run_files state ./files
-      #       - filename="${step_name}_${steplet_number}"
-      #       - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
-      #     onExecute:
-      #       - cat ./files/*
-      #     onComplete:
-      #       - echo "${step_name} Completed"
+      - name: step_h
+        type: Bash
+        configuration:
+          inputResources:
+            - name: dummy_resource_1
+        execution:
+          onStart:
+            - restore_run_files state ./files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I am on step ${step_name} ${steplet_number}" > ./files/$filename
+          onExecute:
+            - cat ./files/*
+          onComplete:
+            - echo "${step_name} Completed"
