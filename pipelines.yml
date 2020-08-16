@@ -34,9 +34,9 @@ pipelines:
       - name: matrix_example
         type: Matrix
         stepMode: Bash
-          configuration:
-            outputResources:
-              - name: prop_bag
+        configuration:
+          outputResources:
+            - name: prop_bag
         stepletMultipliers:
           environmentVariables:
             - animal:    dog
