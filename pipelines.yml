@@ -46,7 +46,8 @@ pipelines:
             - printenv
             - add_run_variables stepId=${step_id}
             - add_run_variables stepletId=${steplet_id}
-            - write_output prop_bag "imageTag=${stepId}"
+            - write_output prop_bag "${step_name}_stepId=${step_id}"
+            - write_output prop_bag "${step_name}_stepletId=${steplet_id}"        
 
 
       # - name: start
