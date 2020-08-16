@@ -25,12 +25,6 @@ resources:
 pipelines:     
   - name: pipelines_hello
     steps:
-      - name: start
-        type: Bash
-        execution:
-          onExecute:
-            - echo "Start..."
-
       - name: matrix_example
         type: Matrix
         stepMode: Bash
@@ -54,6 +48,12 @@ pipelines:
             - add_run_variables stepletId=${steplet_id}
             - write_output prop_bag "imageTag=${stepId}"
 
+
+      # - name: start
+      #   type: Bash
+      #   execution:
+      #     onExecute:
+      #       - echo "Start..."
 
       # - name: step_a
       #   type: Bash
