@@ -35,8 +35,6 @@ pipelines:
       - name: step_1
         type: Bash
         configuration:
-          outputResources:
-            - name: dummy_resource
           inputSteps:
             - name: start
         execution:
@@ -49,8 +47,6 @@ pipelines:
       - name: step_2
         type: Bash
         configuration:
-          outputResources:
-            - name: dummy_resource
           inputSteps:
             - name: start
         execution:
@@ -63,8 +59,6 @@ pipelines:
       - name: step_3
         type: Bash
         configuration:
-          outputResources:
-            - name: dummy_resource
           inputSteps:
             - name: start
         execution:
@@ -77,8 +71,6 @@ pipelines:
       - name: finish
         type: Bash
         configuration:
-          outputResources:
-            - name: dummy_resource
           inputSteps:
             - name: step_1
             - name: step_2
