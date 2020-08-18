@@ -31,57 +31,6 @@ pipelines:
         execution:
           onExecute:
             - echo "Start..."
-            
-#       - name: step_1
-#         type: Bash
-#         configuration:
-#           inputSteps:
-#             - name: start
-#         execution:
-#           onStart:
-#             - sleep 10
-#             - add_run_variables step_1=${step_id}_${steplet_id}
-#           onComplete:
-#             - echo "${step_name} Completed"        
-            
-#       - name: step_2
-#         type: Bash
-#         configuration:
-#           inputSteps:
-#             - name: start
-#         execution:
-#           onStart:
-#             - sleep 5
-#             - add_run_variables step_2=${step_id}_${steplet_id}
-#           onComplete:
-#             - echo "${step_name} Completed"       
-            
-#       - name: step_3
-#         type: Bash
-#         configuration:
-#           inputSteps:
-#             - name: start
-#         execution:
-#           onStart:
-#             - sleep 7
-#             - add_run_variables step_3=${step_id}_${steplet_id}
-#           onComplete:
-#             - echo "${step_name} Completed" 
-            
-#       - name: finish
-#         type: Bash
-#         configuration:
-#           inputSteps:
-#             - name: step_1
-#             - name: step_2
-#             - name: step_3
-#         execution:
-#           onExecute:
-#             - echo "Step 1 - ${step_1}"
-#             - echo "Step 2 - ${step_2}"
-#             - echo "Step 3 - ${step_3}"
-#           onComplete:
-#             - echo "${step_name} Completed"
 
       - name: step_a
         type: Bash
@@ -173,6 +122,3 @@ pipelines:
             - cat ./files/*
           onComplete:
             - echo "${step_name} Completed"
-
-
-  
