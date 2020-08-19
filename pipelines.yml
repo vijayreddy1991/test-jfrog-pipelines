@@ -1,52 +1,41 @@
-resources:
-  - name: source_repo
-    type: GitRepo
-    configuration:
-      gitProvider: kashyaprahul94_github
-      path: kashyaprahul94/test-jfrog-pipelines
-      branches:
-        include: master
-
-  - name: prop_bag
-    type: PropertyBag
-    configuration:
-      key1: value1
-
-  - name: dummy_resource
-    type: PropertyBag
-    configuration:
-      key1: value1
-      
-  - name: dummy_resource_1
-    type: PropertyBag
-    configuration:
-      key1: value1
-
 pipelines:     
   - name: pipelines_hello
     steps:
-    
-      - name: matrix_example
+
+      - name: step_1
         type: Matrix
         stepMode: Bash
-        configuration:
-          outputResources:
-            - name: prop_bag
         stepletMultipliers:
           environmentVariables:
-            - animal:    dog
-              mineral:   copper
-              vegetable: carrot
-            - animal:    goat
-              mineral:   iron
-              vegetable: broccoli
+            - foo_val: foo
+              bar_val: bar
+            - foo_val: foofoo
+              bar_val: barbar
         execution:
+          onStart:
+            - mkdir -p files
+            - filename="${step_name}_${steplet_number}"
+            - echo "I was on step name - ${step_name} step id - ${step_name} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
           onExecute:
             - echo "Executing matrix step on ${steplet_id}"
-            - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
-            - printenv
-            - add_run_variables stepId=${step_id}
-            - add_run_variables stepletId=${steplet_id}
-            - write_output prop_bag "${step_name}_stepId=${step_id}"
-            - write_output prop_bag "${step_name}_stepletId_${steplet_id}=${steplet_id}"        
+            - add_run_files ./files state
+            - add_run_variables foo_step_1_steplet_{steplet_number}=${foo_val}
+            - add_run_variables bar_step_1_steplet_{steplet_number}=${bar_val}
+          onComplete:
+            - echo "Steplet #${steplet_number} Completed"
+            
+      - name: step_2
+        type: Bash
+        execution:
+          onStart:
+            - restore_run_files state ./files
+          onExecute:
+            - echo "state file contents - "
+            - cat ./files/*
+            - echo "foo_step_1_steplet_1 --> ${foo_step_1_steplet_1}"
+            - echo "bar_step_1_steplet_1 --> ${bar_step_1_steplet_1}"
+            - echo "foo_step_1_steplet_2 --> ${foo_step_1_steplet_2}"
+            - echo "bar_step_1_steplet_2 --> ${bar_step_1_steplet_2}"
+          onComplete:
+            - echo "${step_name} Completed"
 
