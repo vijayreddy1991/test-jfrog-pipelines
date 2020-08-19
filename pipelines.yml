@@ -26,6 +26,9 @@ pipelines:
             
       - name: step_2
         type: Bash
+        configuration:
+          inputSteps:
+            - name: step_1
         execution:
           onStart:
             - restore_run_files state ./files
