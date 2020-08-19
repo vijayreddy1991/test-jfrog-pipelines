@@ -15,7 +15,7 @@ pipelines:
           onStart:
             - mkdir -p files
             - filename="${step_name}_${steplet_number}"
-            - echo "I was on step name - ${step_name} step id - ${step_name} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
+            - echo "I was on step name - ${step_name} step id - ${step_id} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
           onExecute:
             - echo "Executing matrix step on ${steplet_id}"
             - add_run_files ./files state
