@@ -1,52 +1,28 @@
-resources:
-  - name: source_repo
-    type: GitRepo
-    configuration:
-      gitProvider: kashyaprahul94_github
-      path: kashyaprahul94/test-jfrog-pipelines
-      branches:
-        include: master
-
-  - name: prop_bag
-    type: PropertyBag
-    configuration:
-      key1: value1
-
-  - name: dummy_resource
-    type: PropertyBag
-    configuration:
-      key1: value1
-      
-  - name: dummy_resource_1
-    type: PropertyBag
-    configuration:
-      key1: value1
-
-pipelines:     
+pipelines:
   - name: pipelines_hello
     steps:
-    
-      - name: matrix_example
-        type: Matrix
-        stepMode: Bash
-        configuration:
-          outputResources:
-            - name: prop_bag
-        stepletMultipliers:
-          environmentVariables:
-            - animal:    dog
-              mineral:   copper
-              vegetable: carrot
-            - animal:    goat
-              mineral:   iron
-              vegetable: broccoli
-        execution:
-          onExecute:
-            - echo "Executing matrix step on ${steplet_id}"
-            - echo "Variation animal = ${animal}, mineral = ${mineral}, vegetable = ${vegetable}"
-            - printenv
-            - add_run_variables stepId=${step_id}
-            - add_run_variables stepletId=${steplet_id}
-            - write_output prop_bag "${step_name}_stepId=${step_id}"
-            - write_output prop_bag "${step_name}_stepletId_${steplet_id}=${steplet_id}"        
+    - name: step_1
+      type: Bash
+      execution:
+        onExecute:
+          - add_run_variables foo="bar"
+          - add_run_variables stepId=${step_id}
+          - add_run_variables stepletId=${steplet_id}
+        onComplete:
+          - echo "${step_name} Completed"
 
+    - name: step_2
+      type: Bash
+      configuration:
+        inputSteps:
+          - name: step_1
+      execution:
+        onExecute:
+          - printenv
+          - echo "foo - ${foo}"
+          - echo "last step id - ${step_id}"
+          - echo "last steplet id - ${steplet_id}"
+          - echo "current step id - ${stepId}"
+          - echo "current steplet id - ${stepletId}"
+        onComplete:
+          - echo "${step_name} Completed"
