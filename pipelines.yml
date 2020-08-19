@@ -5,9 +5,8 @@ pipelines:
       type: Bash
       execution:
         onExecute:
-          - add_run_variables foo="bar"
-          - add_run_variables stepId=${step_id}
-          - add_run_variables stepletId=${steplet_id}
+          - add_run_variables var1="foo"
+          - add_run_variables var2="bar"
         onComplete:
           - echo "${step_name} Completed"
 
@@ -18,11 +17,20 @@ pipelines:
           - name: step_1
       execution:
         onExecute:
-          - printenv
-          - echo "foo - ${foo}"
-          - echo "last step id - ${step_id}"
-          - echo "last steplet id - ${steplet_id}"
-          - echo "current step id - ${stepId}"
-          - echo "current steplet id - ${stepletId}"
+          - add_run_variables var3="baz"
+          - add_run_variables var1="foofoofoo"
+        onComplete:
+          - echo "${step_name} Completed"
+
+    - name: step_3
+      type: Bash
+      configuration:
+        inputSteps:
+          - name: step_2
+      execution:
+        onExecute:
+          - echo "var1 - ${var1}"
+          - echo "var2 - ${var2}"
+          - echo "var3 - ${var3}"
         onComplete:
           - echo "${step_name} Completed"
