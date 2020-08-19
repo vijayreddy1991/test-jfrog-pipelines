@@ -19,8 +19,8 @@ pipelines:
           onExecute:
             - echo "Executing matrix step on ${steplet_id}"
             - add_run_files ./files state
-            - add_run_variables "foo_step_1_steplet_{steplet_number}=${foo_val}"
-            - add_run_variables "bar_step_1_steplet_{steplet_number}=${bar_val}"
+            - add_run_variables "foo_step_1_steplet_${steplet_number}=${foo_val}"
+            - add_run_variables "bar_step_1_steplet_${steplet_number}=${bar_val}"
           onComplete:
             - echo "Steplet ${steplet_number} Completed"
             
