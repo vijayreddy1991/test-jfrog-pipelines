@@ -1,16 +1,27 @@
-pipelines:     
+resources:
+  - name: prop_bag
+    type: PropertyBag
+    configuration:
+      key1: value1
+
+pipelines:
   - name: pipelines_hello
     steps:
 
       - name: step_1
         type: Matrix
+        configuration:
+          outputResources:
+            - name: prop_bag
         stepMode: Bash
         stepletMultipliers:
           environmentVariables:
             - foo_val: foo
               bar_val: bar
+              env_val: linux
             - foo_val: foofoo
               bar_val: barbar
+              env_val: mac
         execution:
           onStart:
             - mkdir -p files
@@ -18,27 +29,23 @@ pipelines:
             - echo "I was on step name - ${step_name} step id - ${step_id} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
           onExecute:
             - echo "Executing matrix step on ${steplet_id}"
-            - add_run_files ./files state
             - add_run_variables "foo_step_1_steplet_${steplet_number}=${foo_val}"
             - add_run_variables "bar_step_1_steplet_${steplet_number}=${bar_val}"
-          onComplete:
-            - echo "Steplet ${steplet_number} Completed"
+            - write_output prop_bag "foo_for_env_${env_val}=${env_val}"
             
       - name: step_2
         type: Bash
         configuration:
           inputSteps:
             - name: step_1
+          inputResources:
+            - name: prop_bag
         execution:
-          onStart:
-            - restore_run_files state ./files
           onExecute:
-            - echo "state file contents - "
-            - cat ./files/*
             - echo "foo_step_1_steplet_1 --> ${foo_step_1_steplet_1}"
             - echo "bar_step_1_steplet_1 --> ${bar_step_1_steplet_1}"
             - echo "foo_step_1_steplet_2 --> ${foo_step_1_steplet_2}"
             - echo "bar_step_1_steplet_2 --> ${bar_step_1_steplet_2}"
-          onComplete:
-            - echo "${step_name} Completed"
+            - echo "foo_for_env_linux value - $res_prop_bag_foo_for_env_linux"
+            - echo "foo_for_env_mac value - $res_prop_bag_foo_for_env_mac"
 
