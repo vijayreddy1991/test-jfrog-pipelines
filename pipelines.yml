@@ -15,6 +15,9 @@ pipelines:
       - name: step_2
         type: Matrix
         stepMode: Bash
+        configuration:
+          inputSteps:
+            - name: step_1
         stepletMultipliers:
           environmentVariables:
             - foo_val: foo
@@ -37,6 +40,9 @@ pipelines:
 
       - name: step_3
         type: PostMatrix
+        configuration:
+          inputSteps:
+            - name: step_2
         execution:
           onStart:
             - ls -al
