@@ -31,4 +31,4 @@ pipelines:
             - echo "var3 - ${var3}"
             - if [ "$var1" != "foofoofoo" ]; then exit 1; fi
             - if [ "$var1" != "bar" ]; then exit 1; fi
-            - if [ "$var1" != "baxz" ]; then exit 1; fi
+            - if [ "$var1" != "baz" ]; then exit 1; fi
