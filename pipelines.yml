@@ -1,18 +1,20 @@
-resources:
-  - name: prop_bag
-    type: PropertyBag
-    configuration:
-      key1: value1
-
 pipelines:
   - name: pipelines_hello
     steps:
 
       - name: step_1
+        type: PreMatrix
+        stepMode: Bash
+        execution:
+          onStart:
+            - mkdir -p files
+            - filename="foo.txt"
+            - echo "Hey coming from pre matrix" > ./files/$filename
+          onExecute:
+            - echo "Executing matrix step on ${steplet_id}"
+
+      - name: step_2
         type: Matrix
-        configuration:
-          outputResources:
-            - name: prop_bag
         stepMode: Bash
         stepletMultipliers:
           environmentVariables:
@@ -24,6 +26,8 @@ pipelines:
               env_val: mac
         execution:
           onStart:
+            - ls -al
+            - cat ./files/*
             - mkdir -p files
             - filename="${step_name}_${steplet_number}"
             - echo "I was on step name - ${step_name} step id - ${step_id} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
@@ -31,21 +35,12 @@ pipelines:
             - echo "Executing matrix step on ${steplet_id}"
             - add_run_variables "foo_step_1_steplet_${steplet_number}=${foo_val}"
             - add_run_variables "bar_step_1_steplet_${steplet_number}=${bar_val}"
-            - write_output prop_bag "foo_for_env_${env_val}=${env_val}"
-            
-      - name: step_2
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_1
-          inputResources:
-            - name: prop_bag
-        execution:
-          onExecute:
-            - echo "foo_step_1_steplet_1 --> ${foo_step_1_steplet_1}"
-            - echo "bar_step_1_steplet_1 --> ${bar_step_1_steplet_1}"
-            - echo "foo_step_1_steplet_2 --> ${foo_step_1_steplet_2}"
-            - echo "bar_step_1_steplet_2 --> ${bar_step_1_steplet_2}"
-            - echo "foo_for_env_linux value - $res_prop_bag_foo_for_env_linux"
-            - echo "foo_for_env_mac value - $res_prop_bag_foo_for_env_mac"
 
+      - name: step_3
+        type: PostMatrix
+        stepMode: Bash
+        execution:
+          onStart:
+            - ls -al
+          onExecute:
+            - echo "Executing matrix step on ${steplet_id}"
