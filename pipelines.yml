@@ -18,8 +18,8 @@ pipelines:
             - echo "foo_bar" > ./files/$filename
           onExecute:
             - add_run_files ./files state
-            - set_step_var "foo=${foo_val}"
-            - set_step_var "bar=${bar_val}"
+            - set_step_var "foo" ${foo_val}
+            - set_step_var "bar" ${bar_val}
 
       - name: step_2
         type: Bash
