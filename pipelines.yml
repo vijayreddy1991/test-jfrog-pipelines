@@ -1,25 +1,13 @@
+pipelines:
+  - name: pipelines_hello
+    steps:
 
-resources:
-  - name: source_repo
-    type: GitRepo
-    configuration:
-      gitProvider: kashyaprahul94_github
-      path: kashyaprahul94/test-jfrog-pipelines
-      branches:
-        include: master
- 
-pipelines:     
-    - name: pipelines_hello
-      steps:
       - name: step_1
         type: Bash
         execution:
           onExecute:
-            - printenv
-            - add_run_variables stepId=${step_id}
-            - add_run_variables stepletId=${steplet_id}
-          onComplete:
-            - echo "${step_name} Completed"
+            - add_run_variables var1="foo"
+            - add_run_variables var2="bar"
 
       - name: step_2
         type: Bash
@@ -28,8 +16,19 @@ pipelines:
             - name: step_1
         execution:
           onExecute:
-            - printenv
-            - add_run_variables stepId=${step_id}
-            - add_run_variables stepletId=${steplet_id}
-          onComplete:
-            - echo "${step_name} Completed"
+            - add_run_variables var3="baz"
+            - add_run_variables var1="foofoofoo"
+
+      - name: step_3
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_2
+        execution:
+          onExecute:
+            - echo "var1 - ${var1}"
+            - echo "var2 - ${var2}"
+            - echo "var3 - ${var3}"
+            - if [ "$var1" != "foofoofoo" ]; then exit 1; fi
+            - if [ "$var1" != "bar" ]; then exit 1; fi
+            - if [ "$var1" != "baxz" ]; then exit 1; fi
