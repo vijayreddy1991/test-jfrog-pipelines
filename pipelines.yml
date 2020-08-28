@@ -3,51 +3,34 @@ pipelines:
     steps:
 
       - name: step_1
-        type: PreMatrix
-        execution:
-          onStart:
-            - mkdir -p files
-            - filename="foo.txt"
-            - echo "Hey coming from pre matrix" > ./files/$filename
-          onExecute:
-            - echo "Executing matrix step on ${steplet_id}"
-
-      - name: step_2
         type: Matrix
         stepMode: Bash
-        configuration:
-          inputSteps:
-            - name: step_1
         stepletMultipliers:
           environmentVariables:
             - foo_val: foo
               bar_val: bar
-              env_val: linux
             - foo_val: foofoo
               bar_val: barbar
-              env_val: mac
         execution:
           onStart:
-            - ls -al
-            - cat ./step_1/files/*
             - mkdir -p files
-            - filename="${step_name}_${steplet_number}"
-            - echo "I was on step name - ${step_name} step id - ${step_id} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
+            - filename="${foo_val}_${bar_val}.txt"
+            - echo "foo_bar" > ./files/$filename
           onExecute:
-            - echo "Executing matrix step on ${steplet_id}"
-            - add_run_variables "foo_step_1_steplet_${steplet_number}=${foo_val}"
-            - add_run_variables "bar_step_1_steplet_${steplet_number}=${bar_val}"
+            - add_run_files ./files state
+            - set_step_var "foo=${foo_val}"
+            - set_step_var "bar=${bar_val}"
 
-      - name: step_3
-        type: PostMatrix
+      - name: step_2
+        type: Bash
         configuration:
           inputSteps:
-            - name: step_2
+            - name: step_1
         execution:
           onStart:
-            - ls -al
-            - ls -al ./step_2
-            - ls -al ./step_2/step_1
-            - ls -al ./step_2/step_1/files
+            - restore_run_files state ./files
           onExecute:
-            - echo "Executing matrix step on ${steplet_id}"
+            - cat ./files/foo_bar.txt
+            - cat ./files/foofoo_barbar.txt
+            - get_step_var "step_1" "foo"
+            - get_step_var "step_1" "bar"
