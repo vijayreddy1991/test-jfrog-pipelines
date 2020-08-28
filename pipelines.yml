@@ -4,7 +4,6 @@ pipelines:
 
       - name: step_1
         type: PreMatrix
-        stepMode: Bash
         execution:
           onStart:
             - mkdir -p files
@@ -38,7 +37,6 @@ pipelines:
 
       - name: step_3
         type: PostMatrix
-        stepMode: Bash
         execution:
           onStart:
             - ls -al
