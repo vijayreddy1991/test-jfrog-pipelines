@@ -29,7 +29,7 @@ pipelines:
         execution:
           onStart:
             - ls -al
-            - cat ./files/*
+            - cat ./step1/files/*
             - mkdir -p files
             - filename="${step_name}_${steplet_number}"
             - echo "I was on step name - ${step_name} step id - ${step_id} steplet number - ${steplet_number} steplet id - ${steplet_id}" > ./files/$filename
@@ -46,5 +46,8 @@ pipelines:
         execution:
           onStart:
             - ls -al
+            - ls -al ./step2
+            - ls -al ./step2/step1
+            - ls -al ./step2/step1/files
           onExecute:
             - echo "Executing matrix step on ${steplet_id}"
