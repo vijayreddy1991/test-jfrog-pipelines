@@ -8,6 +8,7 @@ pipelines:
           onExecute:
             - add_run_variables var1="foo"
             - add_run_variables var2="bar"
+            - echo "Step 1.."
 
       - name: step_2
         type: Bash
@@ -17,7 +18,7 @@ pipelines:
         execution:
           onExecute:
             - add_run_variables var3="baz"
-            - add_run_variables var1="foofoofoo"
+            - echo "Step 2.."
 
       - name: step_3
         type: Bash
@@ -26,9 +27,24 @@ pipelines:
             - name: step_2
         execution:
           onExecute:
+            - echo "Step 3.."
+
+      - name: step_4
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_3
+        execution:
+          onExecute:
+            - echo "Step 4.."
+
+      - name: step_5
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_4
+        execution:
+          onExecute:
             - echo "var1 - ${var1}"
             - echo "var2 - ${var2}"
             - echo "var3 - ${var3}"
-            - if [ "$var1" != "foofoofoo" ]; then exit 1; fi
-            - if [ "$var1" != "bar" ]; then exit 1; fi
-            - if [ "$var1" != "baz" ]; then exit 1; fi
