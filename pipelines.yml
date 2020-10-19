@@ -1,75 +1,36 @@
 pipelines:
-  - name: matrix_state_fast_fail
+  - name: M_S_Matrix_MN_008
     steps:
-      - name: Normal_Step
+
+      - name: M_S_Matrix_MN_008_001
         type: Bash
-        execution: 
-          onExecute:
-            - echo "Passed"
+        execution:
+          onStart:
+            - echo "Step is running"
 
-      - name: Matrix_Fan_Out_1
-        type: PreMatrix
-        configuration:
-          inputSteps: 
-            - name: Normal_Step      
-        execution: 
-          onExecute:
-            - echo "I am on fan out step"
-            - touch fan_out.txt
-            - set_step_var fan_out value1
-            - echo "Fan out working" > fan_out_1.txt
-
-      - name: matrix_2
+      - name: M_S_Matrix_MN_008_002
         type: Matrix
         stepMode: Bash
         configuration:
+          inputSteps:
+            - name: M_S_Matrix_MN_008_001
           multiNode: true
-          inputSteps: 
-            - name: Matrix_Fan_Out_1
         stepletMultipliers:
-          fastFail: true
           environmentVariables:
-            - delay: 5
-              fail: 'true'
-            - delay: 10
-              fail: 'false'
-            - delay: 15
-              fail: 'false'
-            - delay: 20
-              fail: 'false'
-          runtimes:
-            - type: image
-              image:
-                auto:
-                  language: java
-                  versions:
-                    - 13
-            - type: image
-              image:
-                auto:
-                  language: node
-                  versions:
-                    - 8.17.0
+            - foo: "foo"
+            - foo: "bar"
+            - foo: "baz"
         execution:
           onStart:
-            - sleep "$delay"
+            - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
           onExecute:
-            - echo "I am on matrix step"
-            - |
-              [ $fail == 'true' ] 
-            - ls -l .
+            - echo "$steplet_info"
 
-      - name: Matrix_Fan_In
-        type: PostMatrix
+      - name: M_S_Matrix_MN_008_003
+        type: Bash
         configuration:
-          inputSteps: 
-            - name: matrix_2
+          inputSteps:
+            - name: M_S_Matrix_MN_008_002
         execution:
           onExecute:
-            - echo "Hello World"
-            - ls -l .
-            - ls -l ./matrix_2
-            - ls -l ./matrix_2/Matrix_Fan_Out_1/
-            - get_step_var matrix_2 test_key
-            - get_step_var matrix_2 addresses
- 
+            - get_step_var "M_S_Matrix_MN_008_002" "steplet_info"
