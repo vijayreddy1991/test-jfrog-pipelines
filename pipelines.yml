@@ -1,50 +1,75 @@
 pipelines:
-  - name: pipelines_hello
+  - name: matrix_state_fast_fail
     steps:
-
-      - name: step_1
+      - name: Normal_Step
         type: Bash
-        execution:
+        execution: 
           onExecute:
-            - add_run_variables var1="foo"
-            - add_run_variables var2="bar"
-            - echo "Step 1.."
+            - echo "Passed"
 
-      - name: step_2
-        type: Bash
+      - name: Matrix_Fan_Out_1
+        type: PreMatrix
         configuration:
-          inputSteps:
-            - name: step_1
-        execution:
+          inputSteps: 
+            - name: Normal_Step      
+        execution: 
           onExecute:
-            - add_run_variables var3="baz"
-            - echo "Step 2.."
+            - echo "I am on fan out step"
+            - touch fan_out.txt
+            - set_step_var fan_out value1
+            - echo "Fan out working" > fan_out_1.txt
 
-      - name: step_3
-        type: Bash
+      - name: matrix_2
+        type: Matrix
+        stepMode: Bash
         configuration:
-          inputSteps:
-            - name: step_2
+          multiNode: false
+          inputSteps: 
+            - name: Matrix_Fan_Out_1
+        stepletMultipliers:
+          fastFail: true
+          environmentVariables:
+            - delay: 5
+              fail: 'true'
+            - delay: 10
+              fail: 'false'
+            - delay: 15
+              fail: 'false'
+            - delay: 20
+              fail: 'false'
+          runtimes:
+            - type: image
+              image:
+                auto:
+                  language: java
+                  versions:
+                    - 13
+            - type: image
+              image:
+                auto:
+                  language: node
+                  versions:
+                    - 8.17.0
         execution:
+          onStart:
+            - sleep "$delay"
           onExecute:
-            - echo "Step 3.."
+            - echo "I am on matrix step"
+            - |
+              [ $fail == 'true' ] 
+            - ls -l .
 
-      - name: step_4
-        type: Bash
+      - name: Matrix_Fan_In
+        type: PostMatrix
         configuration:
-          inputSteps:
-            - name: step_3
+          inputSteps: 
+            - name: matrix_2
         execution:
           onExecute:
-            - echo "Step 4.."
-
-      - name: step_5
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_4
-        execution:
-          onExecute:
-            - echo "var1 - ${var1}"
-            - echo "var2 - ${var2}"
-            - echo "var3 - ${var3}"
+            - echo "Hello World"
+            - ls -l .
+            - ls -l ./matrix_2
+            - ls -l ./matrix_2/Matrix_Fan_Out_1/
+            - get_step_var matrix_2 test_key
+            - get_step_var matrix_2 addresses
+ 
