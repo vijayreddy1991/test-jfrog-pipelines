@@ -1,69 +1,80 @@
-pipelines:
-  - name: matrix_state_allow_failure
+pipelines:     
+  - name: pipelines_hello
     steps:
-      - name: Normal_Step
+
+      - name: step__1
         type: Bash
-        execution: 
-          onExecute:
-            - echo "Passed"
-
-      - name: Matrix_Fan_Out_1
-        type: PreMatrix
-        configuration:
-          inputSteps: 
-            - name: Normal_Step      
-        execution: 
-          onExecute:
-            - echo "I am on fan out step"
-            - touch fan_out.txt
-            - set_step_var fan_out value1
-            - echo "Fan out working" > fan_out_1.txt
-
-      - name: matrix_2
-        type: Matrix
-        stepMode: Bash
-        configuration:
-#          multiNode: true
-          inputSteps: 
-            - name: Matrix_Fan_Out_1
-        stepletMultipliers:
-          fastFail: true
-          allowFailures:
-            - environmentVariables:
-                delay: 1
-                fail: 'true'
-          exclude:
-            - environmentVariables:
-                delay: 10
-                fail: 'true'
-          environmentVariables:
-            - delay: 1
-              fail: 'true'
-            - delay: 10
-              fail: 'true'
-            - delay: 15
-              fail: 'false'
-            - delay: 20
-              fail: 'false' 
-        execution:
-          onStart:
-            - sleep "$delay"
-          onExecute:
-            - echo "I am on matrix step"
-            - |
-              [ $fail == 'false' ] 
-            - ls -l .
-
-      - name: Matrix_Fan_In
-        type: PostMatrix
-        configuration:
-          inputSteps: 
-            - name: matrix_2
         execution:
           onExecute:
-            - echo "Hello World"
-            - ls -l .
-            - ls -l ./matrix_2
-            - ls -l ./matrix_2/Matrix_Fan_Out_1/
-            - get_step_var matrix_2 test_key
-            - get_step_var matrix_2 addresses
+            - echo "Hello from the step 1"
+
+      - name: step_2
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step__1
+          affinityGroup: ag_foo
+          priority: 4
+        execution:
+          onExecute:
+            - echo "Hello from the step 2"
+
+      - name: step_3
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step__1
+          affinityGroup: ag_foo
+          priority: 1
+        execution:
+          onExecute:
+            - echo "Hello from the step 3"
+
+      - name: step_4
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step__1
+          affinityGroup: ag_foo
+          priority: 3
+        execution:
+          onExecute:
+            - echo "Hello from the step 4"
+
+      - name: step_5
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_2
+            - name: step_3
+            - name: step_4
+          affinityGroup: ag_foo
+          priority: 4
+        execution:
+          onExecute:
+            - echo "Hello from the step 5"
+
+      - name: step_6
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_2
+            - name: step_3
+            - name: step_4
+          affinityGroup: ag_foo
+          priority: 2
+        execution:
+          onExecute:
+            - echo "Hello from the step 6"
+
+      - name: step_7
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: step_5
+            - name: step_6
+          affinityGroup: ag_foo
+          priority: 2
+        execution:
+          onExecute:
+            - echo "Hello from the step 7"
