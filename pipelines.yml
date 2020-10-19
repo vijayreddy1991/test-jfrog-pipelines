@@ -23,7 +23,7 @@ pipelines:
         type: Matrix
         stepMode: Bash
         configuration:
-          multiNode: false
+          multiNode: true
           inputSteps: 
             - name: Matrix_Fan_Out_1
         stepletMultipliers:
