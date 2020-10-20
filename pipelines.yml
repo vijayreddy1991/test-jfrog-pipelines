@@ -1,50 +1,29 @@
 pipelines:
-  - name: pipelines_hello
+  - name: MULTI_NODE_DEMO
     steps:
 
-      - name: step_1
-        type: Bash
+      - name: MULTI_NODE_DEMO_001
+        type: Matrix
+        stepMode: Bash
+        configuration:
+          multiNode: true
+        stepletMultipliers:
+          environmentVariables:
+            - foo: "foo"
+            - foo: "bar"
+            - foo: "baz"
         execution:
+          onStart:
+            - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
           onExecute:
-            - add_run_variables var1="foo"
-            - add_run_variables var2="bar"
-            - echo "Step 1.."
+            - echo "$steplet_info"
+            - echo "foo value --> $foo
 
-      - name: step_2
+      - name: MULTI_NODE_DEMO_002
         type: Bash
         configuration:
           inputSteps:
-            - name: step_1
+            - name: MULTI_NODE_DEMO_001
         execution:
           onExecute:
-            - add_run_variables var3="baz"
-            - echo "Step 2.."
-
-      - name: step_3
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_2
-        execution:
-          onExecute:
-            - echo "Step 3.."
-
-      - name: step_4
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_3
-        execution:
-          onExecute:
-            - echo "Step 4.."
-
-      - name: step_5
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: step_4
-        execution:
-          onExecute:
-            - echo "var1 - ${var1}"
-            - echo "var2 - ${var2}"
-            - echo "var3 - ${var3}"
+            - get_step_var "MULTI_NODE_DEMO_001" "steplet_info"
