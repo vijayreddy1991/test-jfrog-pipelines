@@ -1,19 +1,19 @@
 pipelines:
-  - name: M_S_Matrix_MN_008
+  - name: S_Matrix_MN_008
     steps:
 
-      - name: M_S_Matrix_MN_008_001
+      - name: S_Matrix_MN_008_001
         type: Bash
         execution:
           onStart:
             - echo "Step is running"
 
-      - name: M_S_Matrix_MN_008_002
+      - name: S_Matrix_MN_008_002
         type: Matrix
         stepMode: Bash
         configuration:
           inputSteps:
-            - name: M_S_Matrix_MN_008_001
+            - name: S_Matrix_MN_008_001
           multiNode: true
         stepletMultipliers:
           environmentVariables:
@@ -26,11 +26,11 @@ pipelines:
           onExecute:
             - echo "$steplet_info"
 
-      - name: M_S_Matrix_MN_008_003
+      - name: S_Matrix_MN_008_003
         type: Bash
         configuration:
           inputSteps:
-            - name: M_S_Matrix_MN_008_002
+            - name: S_Matrix_MN_008_002
         execution:
           onExecute:
-            - get_step_var "M_S_Matrix_MN_008_002" "steplet_info"
+            - get_step_var "S_Matrix_MN_008_002" "steplet_info"
