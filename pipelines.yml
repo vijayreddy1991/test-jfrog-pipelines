@@ -2,11 +2,20 @@ pipelines:
   - name: MULTI_NODE_DEMO
     steps:
 
+      - name: MULTI_NODE_DEMO_000
+        type: Bash
+        execution:
+          onExecute:
+            - echo "Hello from the other side"
+
+
       - name: MULTI_NODE_DEMO_001
         type: Matrix
         stepMode: Bash
         configuration:
           multiNode: true
+          inputSteps:
+            - name: MULTI_NODE_DEMO_000
         stepletMultipliers:
           environmentVariables:
             - foo: "foo"
@@ -18,7 +27,7 @@ pipelines:
           onExecute:
             - echo "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
             - echo "foo value --> $foo"
-            - sleep 10
+            - sleep 1
 
       - name: MULTI_NODE_DEMO_002
         type: Bash
