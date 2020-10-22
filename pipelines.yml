@@ -27,7 +27,7 @@ pipelines:
           onExecute:
             - echo "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
             - echo "foo value --> $foo"
-            - sleep 1
+            - sleep 10
 
       - name: MULTI_NODE_DEMO_002
         type: Bash
