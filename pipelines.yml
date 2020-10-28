@@ -80,12 +80,12 @@ pipelines:
           onStart:
             - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
           onExecute:
-            - echo "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
-            - echo "foo value --> $foo"
-            - sleep 10
+            - Write-Output "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
+            - Write-Output "foo value --> $foo"
+#             - sleep 10
 
       - name: MULTI_NODE_DEMO_WIN_002
-        type: Bash
+        type: PowerShell
         configuration:
           inputSteps:
             - name: MULTI_NODE_DEMO_WIN_001
