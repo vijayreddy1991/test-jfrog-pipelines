@@ -52,25 +52,25 @@
 
 
 pipelines:
-  - name: MULTI_NODE_DEMO
+  - name: MULTI_NODE_DEMO_WIN
     configuration:
         nodePool: vm_windows
     steps:
 
-      - name: MULTI_NODE_DEMO_000
-        type: Bash
+      - name: MULTI_NODE_DEMO_WIN_000
+        type: Powershell
         execution:
           onExecute:
             - echo "Hello from the other side"
 
 
-      - name: MULTI_NODE_DEMO_001
+      - name: MULTI_NODE_DEMO_WIN_001
         type: Matrix
         stepMode: Bash
         configuration:
           multiNode: true
           inputSteps:
-            - name: MULTI_NODE_DEMO_000
+            - name: MULTI_NODE_DEMO_WIN_000
         stepletMultipliers:
           environmentVariables:
             - foo: "foo"
@@ -84,11 +84,11 @@ pipelines:
             - echo "foo value --> $foo"
             - sleep 10
 
-      - name: MULTI_NODE_DEMO_002
+      - name: MULTI_NODE_DEMO_WIN_002
         type: Bash
         configuration:
           inputSteps:
-            - name: MULTI_NODE_DEMO_001
+            - name: MULTI_NODE_DEMO_WIN_001
         execution:
           onExecute:
-            - get_step_var "MULTI_NODE_DEMO_001" "steplet_info"
+            - get_step_var "MULTI_NODE_DEMO_WIN_001" "steplet_info"
