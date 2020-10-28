@@ -77,7 +77,7 @@ pipelines:
             - foo: "bar"
             - foo: "baz"
         execution:
-          onStart:
+#           onStart:
 #             - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
           onExecute:
             - Write-Output "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
