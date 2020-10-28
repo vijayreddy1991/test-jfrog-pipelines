@@ -78,7 +78,7 @@ pipelines:
             - foo: "baz"
         execution:
           onStart:
-            - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
+#             - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
           onExecute:
             - Write-Output "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
             - Write-Output "foo value --> $foo"
@@ -91,4 +91,5 @@ pipelines:
             - name: MULTI_NODE_DEMO_WIN_001
         execution:
           onExecute:
-            - get_step_var "MULTI_NODE_DEMO_WIN_001" "steplet_info"
+#             - get_step_var "MULTI_NODE_DEMO_WIN_001" "steplet_info"
+            - Write-Output "foo value --> $foo"
