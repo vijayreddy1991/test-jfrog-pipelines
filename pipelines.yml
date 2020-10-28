@@ -58,7 +58,7 @@ pipelines:
     steps:
 
       - name: MULTI_NODE_DEMO_WIN_000
-        type: Powershell
+        type: PowerShell
         execution:
           onExecute:
             - echo "Hello from the other side"
@@ -66,7 +66,7 @@ pipelines:
 
       - name: MULTI_NODE_DEMO_WIN_001
         type: Matrix
-        stepMode: Bash
+        stepMode: Powershell
         configuration:
           multiNode: true
           inputSteps:
