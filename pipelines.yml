@@ -1,4 +1,4 @@
-# # pipelines:
+pipelines:
 # #   - name: pipelines_hello
 # #     steps:
 
