@@ -1,4 +1,4 @@
-pipelines:
+# pipelines:
 # #   - name: pipelines_hello
 # #     steps:
 
@@ -95,14 +95,14 @@ pipelines:
 # # #             - get_step_var "MULTI_NODE_DEMO_WIN_001" "steplet_info"
 # #             - Write-Output "foo value --> $foo"
 
-
+pipelines:
   - name: some_pipe_to_test_exit_of_script
     steps:
       - name: some_matrix_step
         type: Matrix
         stepMode: Bash
         configuration:
-          multiNode: true
+          multiNode: false
         stepletMultipliers:
           environmentVariables:
             - foo: foo
