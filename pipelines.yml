@@ -96,22 +96,22 @@ pipelines:
 # #             - Write-Output "foo value --> $foo"
 
 
-name: some_pipe_to_test_exit_of_script
-steps:
-  - name: some_matrix_step
-    type: Matrix
-    stepMode: Bash
-    configuration:
-      multiNode: true
-    stepletMultipliers:
-      environmentVariables:
-        - foo: foo
-        - foo: bar
-        - foo: baz
-    execution:
-      onExecute:
-        - >-
-          echo "Executed matrix steplet - ${steplet_id} on node id -
-          ${step_node_id}"
-        - echo "foo value --> $foo"
-        - sleep 10
+  - name: some_pipe_to_test_exit_of_script
+    steps:
+      - name: some_matrix_step
+        type: Matrix
+        stepMode: Bash
+        configuration:
+          multiNode: true
+        stepletMultipliers:
+          environmentVariables:
+            - foo: foo
+            - foo: bar
+            - foo: baz
+        execution:
+          onExecute:
+            - >-
+              echo "Executed matrix steplet - ${steplet_id} on node id -
+              ${step_node_id}"
+            - echo "foo value --> $foo"
+            - sleep 10
