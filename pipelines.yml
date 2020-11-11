@@ -24,7 +24,7 @@ pipelines:
         configuration:
           nodePool: win_2019
           inputResources:
-            - name: repo_pipe
+            - name: test_git_repo
           inputSteps:
             - name:  S_Bash_Util_0003_rahulk
 
