@@ -1,96 +1,33 @@
-# pipelines:
-# #   - name: pipelines_hello
-# #     steps:
+resources:
+  - name: test_git_repo
+    type: GitRepo
+    configuration:
+      gitProvider: github_kashyaprahul94
+      path: kashyaprahul94/test-jfrog-pipelines
 
-# #       - name: step_1
-# #         type: Bash
-# #         execution:
-# #           onExecute:
-# #             - add_run_variables var1="foo"
-# #             - add_run_variables var2="bar"
-# #             - echo "Step 1.."
+pipelines:
+  - name: pipeline_S_Bash_Util_0003_rahulk
+    steps:
+      - name: S_Bash_Util_0003_rahulk
+        type: Bash
+        configuration:
+          inputResources:
+            - name: test_git_repo
 
-# #       - name: step_2
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_1
-# #         execution:
-# #           onExecute:
-# #             - add_run_variables var3="baz"
-# #             - echo "Step 2.."
+        execution:
+          onExecute:
+            - echo "image resource path is $res_myImage_resourcePath"
+            - add_pipeline_variables pipelineVariable="asdffdjksfj.       k455457457"
 
-# #       - name: step_3
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_2
-# #         execution:
-# #           onExecute:
-# #             - echo "Step 3.."
+      - name: S_Bash_Util_0003_2_rahulk
+        type: PowerShell
+        configuration:
+          nodePool: win_2019
+          inputResources:
+            - name: repo_pipe
+          inputSteps:
+            - name:  S_Bash_Util_0003_rahulk
 
-# #       - name: step_4
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_3
-# #         execution:
-# #           onExecute:
-# #             - echo "Step 4.."
-
-# #       - name: step_5
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_4
-# #         execution:
-# #           onExecute:
-# #             - echo "var1 - ${var1}"
-# #             - echo "var2 - ${var2}"
-# #             - echo "var3 - ${var3}"
-
-
-
-# pipelines:
-#   - name: MULTI_NODE_DEMO_WIN
-#     configuration:
-#         nodePool: vm_windows
-#     steps:
-
-#       - name: MULTI_NODE_DEMO_WIN_000
-#         type: PowerShell
-#         execution:
-#           onExecute:
-#             - Write-Output "Hello from the other side"
-#             - add_run_variables "buildStepName=${step_name}"
-
-#       - name: MULTI_NODE_DEMO_WIN_001
-#         type: Matrix
-#         stepMode: Powershell
-#         configuration:
-#           multiNode: true
-#           inputSteps:
-#             - name: MULTI_NODE_DEMO_WIN_000
-#         stepletMultipliers:
-#           environmentVariables:
-#             - foo: "foo"
-#             - foo: "bar"
-#             - foo: "baz"
-#         execution:
-# #           onStart:
-# #             - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
-#           onExecute:
-#             - Write-Output "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
-#             - Write-Output "foo value --> $foo"
-#             - Write-Output "buildStepName --> ${buildStepName}"
-# #             - sleep 10
-
-# #       - name: MULTI_NODE_DEMO_WIN_002
-# #         type: PowerShell
-# #         configuration:
-# #           inputSteps:
-# #             - name: MULTI_NODE_DEMO_WIN_001
-# #         execution:
-# #           onExecute:
-# # #             - get_step_var "MULTI_NODE_DEMO_WIN_001" "steplet_info"
-# #             - Write-Output "foo value --> $foo"
+        execution:
+          onExecute:
+            - $pipelineVariable
