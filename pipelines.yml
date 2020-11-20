@@ -1,96 +1,392 @@
-# pipelines:
-# #   - name: pipelines_hello
-# #     steps:
+resources:
+  - name: mgit
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bmicro\/.+\b
+        
+  - name: tgit
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \btemplate\/.+\b
 
-# #       - name: step_1
-# #         type: Bash
-# #         execution:
-# #           onExecute:
-# #             - add_run_variables var1="foo"
-# #             - add_run_variables var2="bar"
-# #             - echo "Step 1.."
+  - name: folder1
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder1\/.+\b
 
-# #       - name: step_2
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_1
-# #         execution:
-# #           onExecute:
-# #             - add_run_variables var3="baz"
-# #             - echo "Step 2.."
-
-# #       - name: step_3
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_2
-# #         execution:
-# #           onExecute:
-# #             - echo "Step 3.."
-
-# #       - name: step_4
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_3
-# #         execution:
-# #           onExecute:
-# #             - echo "Step 4.."
-
-# #       - name: step_5
-# #         type: Bash
-# #         configuration:
-# #           inputSteps:
-# #             - name: step_4
-# #         execution:
-# #           onExecute:
-# #             - echo "var1 - ${var1}"
-# #             - echo "var2 - ${var2}"
-# #             - echo "var3 - ${var3}"
+  - name: folder2
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder2\/.+\b
 
 
+  - name: folder3
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder3\/.+\b
 
-# pipelines:
-#   - name: MULTI_NODE_DEMO_WIN
-#     configuration:
-#         nodePool: vm_windows
-#     steps:
+  - name: folder4
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder4\/.+\b
 
-#       - name: MULTI_NODE_DEMO_WIN_000
-#         type: PowerShell
-#         execution:
-#           onExecute:
-#             - Write-Output "Hello from the other side"
-#             - add_run_variables "buildStepName=${step_name}"
+  - name: folder5
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder4\/.+\b
 
-#       - name: MULTI_NODE_DEMO_WIN_001
-#         type: Matrix
-#         stepMode: Powershell
-#         configuration:
-#           multiNode: true
-#           inputSteps:
-#             - name: MULTI_NODE_DEMO_WIN_000
-#         stepletMultipliers:
-#           environmentVariables:
-#             - foo: "foo"
-#             - foo: "bar"
-#             - foo: "baz"
-#         execution:
-# #           onStart:
-# #             - set_step_var "steplet_info" "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
-#           onExecute:
-#             - Write-Output "Executed matrix steplet - ${steplet_id} on node id - ${step_node_id}"
-#             - Write-Output "foo value --> $foo"
-#             - Write-Output "buildStepName --> ${buildStepName}"
-# #             - sleep 10
+  - name: folder6
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder4\/.+\b
 
-# #       - name: MULTI_NODE_DEMO_WIN_002
-# #         type: PowerShell
-# #         configuration:
-# #           inputSteps:
-# #             - name: MULTI_NODE_DEMO_WIN_001
-# #         execution:
-# #           onExecute:
-# # #             - get_step_var "MULTI_NODE_DEMO_WIN_001" "steplet_info"
-# #             - Write-Output "foo value --> $foo"
+
+  - name: folder7
+    type: GitRepo
+    configuration:
+      path: kashyaprahul94/test-jfrog-pipelines
+      branches:
+        include: ^{{gitBranch}}$
+      gitProvider: github_kashyaprahul94
+      files:
+        include: \bfolder4\/.+\b
+
+  - name: m1
+    type: PropertyBag
+    configuration:
+      key1: value1
+      key2: value2
+
+  - name: m2
+    type: PropertyBag
+    configuration:
+      key1: value1
+
+  - name: m3
+    type: PropertyBag
+    configuration:
+      key1: value1
+      key2: value2
+
+  - name: m4
+    type: PropertyBag
+    configuration:
+      key1: value1
+
+
+  - name: m5
+    type: PropertyBag
+    configuration:
+      key1: value1
+      key2: value2
+
+  - name: m6
+    type: PropertyBag
+    configuration:
+      key1: value1
+
+  - name: m7
+    type: PropertyBag
+    configuration:
+      key1: value1
+      key2: value2
+
+  - name: m8
+    type: PropertyBag
+    configuration:
+      key1: value1
+
+
+  - name: m9
+    type: PropertyBag
+    configuration:
+      key1: value1
+      key2: value2
+
+  - name: m10
+    type: PropertyBag
+    configuration:
+      key1: value1
+
+  - name: m11
+    type: PropertyBag
+    configuration:
+      key1: value1
+      key2: value2
+
+  - name: m12
+    type: PropertyBag
+    configuration:
+      key1: value1
+pipelines:
+  - name: BugPipeline2
+    steps:
+      - name: start
+        type: Bash
+        execution: 
+          onExecute:
+            - echo "KICKOFF"
+
+      - name: template_build
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: start
+          inputResources:
+            - name: tgit
+          affinityGroup: group1
+          outputResources:
+            - name: m1
+        execution: 
+          onExecute:
+            - echo "Step 1"
+            - date=$(date)
+            - write_output m1 "date1=$date"
+
+      - name: folder1_build
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: start
+          inputResources:
+            - name: folder1
+          affinityGroup: group1
+          outputResources:
+            - name: m1
+            - name: m6
+            - name: m5
+        execution: 
+          onExecute:
+            - echo "Step 1"
+            - date=$(date)
+            - write_output m5 "date1=$date"
+            - write_output m6 "date1=$date"
+
+
+      - name: folder2_build
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: start
+          inputResources:
+            - name: folder2
+          affinityGroup: group1
+          outputResources:
+            - name: m1
+            - name: m8
+        execution: 
+          onExecute:
+            - echo "Step 1"
+            - date=$(date)
+            - write_output m1 "date1=$date"
+            - write_output m8 "date1=$date"
+
+
+      - name: folder3_build
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: start
+          inputResources:
+            - name: folder3
+          affinityGroup: group1
+          outputResources:
+            - name: m1
+            - name: m7
+        execution: 
+          onExecute:
+            - echo "Step 1"
+            - date=$(date)
+            # - write_output m1 "date1=$date"
+            - write_output m7 "date1=$date"
+
+      - name: micro_build
+        type: Bash
+        configuration:
+          affinityGroup: group1
+          inputResources:
+            - name: m1
+            - name: mgit
+        execution: 
+          onExecute:
+            - echo "Step 2"
+
+      - name: step3
+        type: Bash
+        configuration:
+          affinityGroup: group1
+          outputResources:
+            - name: m2
+          inputSteps:
+            - name: micro_build
+        execution: 
+          onExecute:
+            - echo "Step 1"
+            - date=$(date)
+            - write_output m2 "date1=$date"
+
+      - name: step9
+        type: Bash
+        configuration:
+          inputResources:
+            - name: m2
+          outputResources:
+            - name: m9
+            - name: m8
+            - name: m10 
+        execution: 
+          onExecute:
+            - echo "Step 4"
+            - date=$(date)
+            - write_output m9 "date1=$date"
+            - write_output m10 "date1=$date"
+
+
+      - name: step10
+        type: Bash
+        configuration:
+          affinityGroup: group3
+          inputResources:
+            - name: m6
+          inputSteps:
+            - name: step9
+        execution: 
+          onExecute:
+            - echo "Step 4"
+
+
+      - name: step11
+        type: Bash
+        configuration:
+          affinityGroup: group4
+          inputResources:
+            - name: m7
+          outputResources:
+            - name: m11
+        execution: 
+          onExecute:
+            - echo "Step 4"
+            - date=$(date)
+            - write_output m11 "date1=$date"
+
+      - name: step12
+        type: Bash
+        configuration:
+          affinityGroup: group2
+          inputResources:
+            - name: m7
+            - name: m1
+          outputResources:
+            - name: m3 
+        execution: 
+          onExecute:
+            - echo "Step 4"
+            - date=$(date)
+            - write_output m3 "date1=$date"
+
+      - name: finish
+        type: Bash
+        configuration:
+          affinityGroup: group2
+          inputResources:
+            - name: m1
+            - name: m2
+            - name: m3
+            - name: m4
+            - name: m5
+            - name: m6
+            - name: m7
+            - name: m8
+            - name: m9
+            - name: m10
+            - name: m11
+            - name: m12
+        execution: 
+          onExecute:
+            - echo "Finish"
+
+      
+      
+  # - name: ResTrig
+  #   steps:
+  #     - name: trigger
+  #       type: Bash
+  #       configuration:
+  #         affinityGroup: group1
+  #         outputResources:
+  #           - name: m4
+  #       execution: 
+  #         onExecute:
+  #           - echo "Step 1"
+  #           - date=$(date)
+  #           - write_output m4 "date1=$date"
+
+  # - name: ResTrig1
+  #   steps:
+  #     - name: trigger
+  #       type: Bash
+  #       configuration:
+  #         affinityGroup: group1
+  #         outputResources:
+  #           - name: m3
+  #       execution: 
+  #         onExecute:
+  #           - echo "Step 1"
+  #           - date=$(date)
+  #           - write_output m3 "date1=$date"
+
+  # - name: ResTrig3
+  #   steps:
+  #     - name: trigger
+  #       type: Bash
+  #       configuration:
+  #         affinityGroup: group1
+  #         outputResources:
+  #           - name: m3
+  #           - name: m4
+  #       execution: 
+  #         onExecute:
+  #           - echo "Step 1"
+  #           - date=$(date)
+  #           - write_output m3 "date1=$date"
+  #           - write_output m4 "date1=$date"
