@@ -2,40 +2,40 @@ resources:
   - name: mgit
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bmicro\/.+\b
         
   - name: tgit
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \btemplate\/.+\b
 
   - name: folder1
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder1\/.+\b
 
   - name: folder2
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder2\/.+\b
 
@@ -43,40 +43,40 @@ resources:
   - name: folder3
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder3\/.+\b
 
   - name: folder4
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder4\/.+\b
 
   - name: folder5
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder4\/.+\b
 
   - name: folder6
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder4\/.+\b
 
@@ -84,10 +84,10 @@ resources:
   - name: folder7
     type: GitRepo
     configuration:
-      path: kashyaprahul94/test-jfrog-pipelines
+      path: vijayreddy1991/test-jfrog-pipelines
       branches:
         include: ^{{gitBranch}}$
-      gitProvider: github_kashyaprahul94
+      gitProvider: vijay
       files:
         include: \bfolder4\/.+\b
 
